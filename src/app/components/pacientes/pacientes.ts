@@ -17,8 +17,8 @@ interface Paciente {
   selector: 'app-pacientes',
   templateUrl: './pacientes.html',
   styleUrls: ['./pacientes.css'],
-  standalone: true, // 👈 necesario en Angular moderno
-  imports: [CommonModule, FormsModule, ReactiveFormsModule] // 👈 habilita *ngIf, *ngFor, ngModel, formGroup
+  standalone: true, 
+  imports: [CommonModule, FormsModule, ReactiveFormsModule] 
 })
 export class Pacientes implements OnInit {
 
@@ -29,7 +29,7 @@ export class Pacientes implements OnInit {
       nombres: 'JULIO',
       apellidos: 'DIAZ SAUCEDO',
       sexo: 'M',
-      fechaNacimiento: '1998-04-27', // 👈 formato ISO para <input type="date">
+      fechaNacimiento: '1998-04-27', 
       telefono: '956812548',
       correo: 'DIAZS@MAIL.COM',
       alergias: 'SI'
