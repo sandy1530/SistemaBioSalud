@@ -1,1 +1,213 @@
-<p>pacientes works!</p>
+<!-- Formulario de Registro (Modal) -->
+<div class="modal-overlay" *ngIf="mostrarFormulario" (click)="ocultarFormulario()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="form-container">
+      <h2>Registrar Paciente</h2>
+      
+      <form [formGroup]="pacienteForm" (ngSubmit)="registrarPaciente()">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="dni">Documento de Identidad</label>
+            <input 
+              type="text" 
+              id="dni" 
+              formControlName="dni" 
+              placeholder="Ingrese DNI"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="nombres">Nombres</label>
+            <input 
+              type="text" 
+              id="nombres" 
+              formControlName="nombres" 
+              placeholder="Ingrese nombres"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="apellidos">Apellidos</label>
+            <input 
+              type="text" 
+              id="apellidos" 
+              formControlName="apellidos" 
+              placeholder="Ingrese apellidos"
+            >
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group gender-group">
+            <label>Sexo</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input 
+                  type="radio" 
+                  formControlName="sexo" 
+                  value="M"
+                >
+                <span class="radio-custom"></span>
+                Masculino
+              </label>
+              <label class="radio-label">
+                <input 
+                  type="radio" 
+                  formControlName="sexo" 
+                  value="F"
+                >
+                <span class="radio-custom"></span>
+                Femenino
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="fechaNacimiento">Fecha de Nacimiento</label>
+            <input 
+              type="date" 
+              id="fechaNacimiento" 
+              formControlName="fechaNacimiento"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input 
+              type="tel" 
+              id="telefono" 
+              formControlName="telefono" 
+              placeholder="Ingrese teléfono"
+            >
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label for="correo">Correo electrónico</label>
+            <input 
+              type="email" 
+              id="correo" 
+              formControlName="correo" 
+              placeholder="Ingrese correo electrónico"
+            >
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group allergies-group">
+            <label>Alergias</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input 
+                  type="radio" 
+                  formControlName="alergias" 
+                  value="SI"
+                >
+                <span class="radio-custom"></span>
+                Sí
+              </label>
+              <label class="radio-label">
+                <input 
+                  type="radio" 
+                  formControlName="alergias" 
+                  value="NO"
+                >
+                <span class="radio-custom"></span>
+                No
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            type="submit" 
+            class="btn btn-primary"
+            [disabled]="!pacienteForm.valid"
+          >
+            Registrar
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-secondary"
+            (click)="ocultarFormulario()"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Lista de Pacientes -->
+<div class="pacientes-container">
+  <div class="header-section">
+    <h1>Pacientes registrados</h1>
+    
+    <div class="actions-bar">
+      <button class="btn btn-primary" (click)="mostrarFormularioRegistro()">
+        Registrar Paciente
+      </button>
+      <button class="btn btn-secondary">
+        Lista de pacientes inactivos
+      </button>
+      
+      <div class="search-container">
+        <input 
+          type="text" 
+          placeholder="Buscar..." 
+          [(ngModel)]="busqueda"
+          (input)="buscarPacientes()"
+          class="search-input"
+        >
+        <button class="search-btn">🔍</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="pacientes-table">
+      <thead>
+        <tr>
+          <th>DNI</th>
+          <th>NOMBRES</th>
+          <th>APELLIDO</th>
+          <th>SEXO</th>
+          <th>F NAC</th>
+          <th>TELEFONO</th>
+          <th>CORREO</th>
+          <th>ALERGIAS</th>
+          <th>ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let paciente of pacientesFiltrados">
+          <td>{{ paciente.dni }}</td>
+          <td>{{ paciente.nombres }}</td>
+          <td>{{ paciente.apellidos }}</td>
+          <td>{{ paciente.sexo }}</td>
+          <td>{{ paciente.fechaNacimiento }}</td>
+          <td>{{ paciente.telefono }}</td>
+          <td>{{ paciente.correo }}</td>
+          <td>{{ paciente.alergias }}</td>
+          <td class="actions-cell">
+            <button 
+              class="btn-action btn-modify"
+              (click)="modificarPaciente(paciente.dni)"
+            >
+              Modificar
+            </button>
+            <button 
+              class="btn-action btn-inactive"
+              (click)="inactivarPaciente(paciente.dni)"
+            >
+              Inactivar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
